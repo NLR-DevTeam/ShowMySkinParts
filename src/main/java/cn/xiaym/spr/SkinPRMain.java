@@ -19,6 +19,7 @@ public class SkinPRMain implements ClientModInitializer {
     private static final Logger logger = LoggerFactory.getLogger("SkinPR");
     private static final MinecraftClient MC = MinecraftClient.getInstance();
     private static String dimID;
+    private static boolean isDead;
 
     @Override
     public void onInitializeClient() {
@@ -34,20 +35,27 @@ public class SkinPRMain implements ClientModInitializer {
             if (keyBinding.wasPressed()) {
                 refreshSkinParts();
 
-                if (MC.player == null) {
-                    logger.error("[SkinPR] Error occurred: Player isn't in game!");
-                    return;
-                }
+                if (client.player == null) return;
 
-                MC.player.sendMessage(Text.translatable("message.skinpr.manualRefreshed"));
+                client.player.sendMessage(Text.translatable("message.skinpr.manualRefreshed"));
             }
         });
 
+        ClientTickEvents.START_CLIENT_TICK.register((client) -> {
+            if (client.player == null) return;
+
+            boolean newDead = client.player.isDead();
+            if (Objects.equals(isDead, newDead)) return;
+
+            isDead = newDead;
+            if (isDead) return;
+
+            refreshSkinParts();
+            logger.info("[SkinPR] Refreshing the player's skin parts because of respawning.");
+        });
+
         ClientTickEvents.START_WORLD_TICK.register((world) -> {
-            if (MC.player == null) {
-                logger.error("[SkinPR] Error occurred: Player isn't in game!");
-                return;
-            }
+            if (MC.player == null) return;
 
             String newDimID = world.getDimensionKey().getValue().toString();
             if (Objects.equals(dimID, newDimID)) return;
