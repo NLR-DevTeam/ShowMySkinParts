@@ -23,6 +23,8 @@ public class SkinPRMain implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        Config.prepare();
+
         // Bind keys
         KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "keybinding.skinpr.refreshManually",
@@ -43,6 +45,7 @@ public class SkinPRMain implements ClientModInitializer {
 
         ClientTickEvents.START_CLIENT_TICK.register((client) -> {
             if (client.player == null) return;
+            if (!Config.refreshWhenRespawning) return;
 
             boolean newDead = client.player.isDead();
             if (Objects.equals(isDead, newDead)) return;
@@ -56,6 +59,7 @@ public class SkinPRMain implements ClientModInitializer {
 
         ClientTickEvents.START_WORLD_TICK.register((world) -> {
             if (MC.player == null) return;
+            if (!Config.refreshWhenChangingDim) return;
 
             String newDimID = world.getDimensionKey().getValue().toString();
             if (Objects.equals(dimID, newDimID)) return;
@@ -79,5 +83,9 @@ public class SkinPRMain implements ClientModInitializer {
             MC.options.togglePlayerModelPart(part, !MC.options.isPlayerModelPartEnabled(part));
             MC.options.togglePlayerModelPart(part, !MC.options.isPlayerModelPartEnabled(part));
         }
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 }
