@@ -1,5 +1,5 @@
 {
-    "message.skinpr.manualRefreshed": "[SkinPR] Refreshed your skin parts.",
+    "message.skinpr.manualRefreshed": "Successfully refreshed your skin parts.",
     "category.skinpr.keybindings": "SkinPR Key Bindings",
     "keybinding.skinpr.refreshManually": "Refresh Manually",
     "config.skinpr.title": "Skin Parts Refresher Config",
