@@ -1,6 +1,5 @@
-package cn.xiaym.spr.modContact;
+package cn.xiaym.spr;
 
-import cn.xiaym.spr.Config;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -12,7 +11,9 @@ import net.minecraft.text.Text;
 public class ModMenuEntry implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        if (!FabricLoader.getInstance().isModLoaded("cloth-config")) return null;
+        if (!FabricLoader.getInstance().isModLoaded("cloth-config")) {
+            return null;
+        }
 
         return parent -> {
             ConfigBuilder builder = ConfigBuilder.create()
@@ -25,7 +26,8 @@ public class ModMenuEntry implements ModMenuApi {
 
             // Respawn
             general.addEntry(
-                    entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_respawn"), Config.refreshWhenRespawning)
+                    entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_respawn"),
+                                    Config.refreshWhenRespawning)
                             .setDefaultValue(true)
                             .setSaveConsumer(b -> Config.refreshWhenRespawning = b)
                             .build()
@@ -33,7 +35,8 @@ public class ModMenuEntry implements ModMenuApi {
 
             // Change dim
             general.addEntry(
-                    entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_dim"), Config.refreshWhenChangingDim)
+                    entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_dim"),
+                                    Config.refreshWhenChangingDim)
                             .setDefaultValue(true)
                             .setSaveConsumer(b -> Config.refreshWhenChangingDim = b)
                             .build()

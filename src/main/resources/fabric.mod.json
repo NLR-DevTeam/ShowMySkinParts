@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "skinpr",
+  "id": "skin-parts-refresher",
   "version": "${version}",
   "name": "SkinPartsRefresher",
-  "description": "A bug fix mod for Minecraft 1.19.3.",
-  "icon": "assets/skinpr/icon.png",
+  "description": "A bug fix mod for Minecraft 1.19.3 and higher versions.",
+  "icon": "assets/skin-parts-refresher/icon.png",
   "authors": [
     "XIAYM"
   ],
@@ -16,11 +16,10 @@
       "cn.xiaym.spr.SkinPRMain"
     ],
     "modmenu": [
-      "cn.xiaym.spr.modContact.ModMenuEntry"
+      "cn.xiaym.spr.ModMenuEntry"
     ]
   },
   "depends": {
-    "fabricloader": ">=0.14.11",
     "fabric": "*",
     "minecraft": ">=1.19.3"
   }

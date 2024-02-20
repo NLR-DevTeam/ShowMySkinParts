@@ -5,8 +5,12 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.PlayerModelPart;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
@@ -22,11 +26,25 @@ public class SkinPRMain implements ClientModInitializer {
     private static boolean isDead;
 
     public static void refreshSkinParts() {
-        for (PlayerModelPart part : PlayerModelPart.values()) {
-            // Change 2 times
-            MC.options.togglePlayerModelPart(part, !MC.options.isPlayerModelPartEnabled(part));
-            MC.options.togglePlayerModelPart(part, !MC.options.isPlayerModelPartEnabled(part));
+        // Change 2 times
+        GameOptions options = MC.options;
+        PlayerModelPart part = PlayerModelPart.HAT;
+        options.togglePlayerModelPart(part, !options.isPlayerModelPartEnabled(part));
+        options.togglePlayerModelPart(part, !options.isPlayerModelPartEnabled(part));
+
+        if (MC.player == null) {
+            return;
         }
+
+        // Respect my options.
+        PlayerEntityRenderer renderer = (PlayerEntityRenderer) MC.getEntityRenderDispatcher().getRenderer(MC.player);
+        PlayerEntityModel<AbstractClientPlayerEntity> model = renderer.getModel();
+        model.jacket.visible = options.isPlayerModelPartEnabled(PlayerModelPart.JACKET);
+        model.leftSleeve.visible = options.isPlayerModelPartEnabled(PlayerModelPart.LEFT_SLEEVE);
+        model.rightSleeve.visible = options.isPlayerModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE);
+        model.leftPants.visible = options.isPlayerModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG);
+        model.rightPants.visible = options.isPlayerModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG);
+        model.hat.visible = options.isPlayerModelPartEnabled(PlayerModelPart.HAT);
     }
 
     public static Logger getLogger() {
@@ -45,43 +63,50 @@ public class SkinPRMain implements ClientModInitializer {
                 "category.skinpr.keybindings"
         ));
 
-        ClientTickEvents.END_CLIENT_TICK.register((client) -> {
-            if (!keyBinding.wasPressed()) return;
-            if (client.player == null) return;
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (!keyBinding.wasPressed() || client.player == null) {
+                return;
+            }
 
             refreshSkinParts();
-
             client.player.sendMessage(Text.translatable("message.skinpr.manualRefreshed"));
         });
 
         // Respawn
-        ClientTickEvents.START_WORLD_TICK.register((world) -> {
-            if (MC.player == null) return;
-            if (!Config.refreshWhenRespawning) return;
+        ClientTickEvents.START_WORLD_TICK.register(world -> {
+            if (MC.player == null || !Config.refreshWhenRespawning) {
+                return;
+            }
 
             boolean newDead = MC.player.isDead();
-            if (Objects.equals(isDead, newDead)) return;
+            if (Objects.equals(isDead, newDead)) {
+                return;
+            }
 
             isDead = newDead;
-            if (isDead) return;
+            if (isDead) {
+                return;
+            }
 
             refreshSkinParts();
-            logger.info("[SkinPR] Refreshing the player's skin parts because of respawning.");
+            logger.info("[SkinPR] Respawning detected - Refreshing the player's skin parts.");
         });
 
         // Change DIM
-        ClientTickEvents.START_WORLD_TICK.register((world) -> {
-            if (MC.player == null) return;
-            if (!Config.refreshWhenChangingDim) return;
+        ClientTickEvents.START_WORLD_TICK.register(world -> {
+            if (MC.player == null || !Config.refreshWhenChangingDim) {
+                return;
+            }
 
             String newDimID = world.getDimensionKey().getValue().toString();
-            if (Objects.equals(dimID, newDimID)) return;
+            if (Objects.equals(dimID, newDimID)) {
+                return;
+            }
 
             dimID = newDimID;
 
-            logger.info("[SkinPR] Refreshing the player's skin parts because entering dim: " + dimID);
-
             refreshSkinParts();
+            logger.info("[SkinPR] Dimension change detected - Refreshing the player's skin parts. (" + dimID + ")");
         });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {

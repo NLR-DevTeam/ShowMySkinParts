@@ -1,29 +1,26 @@
 package cn.xiaym.spr;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Config {
-    private static File configFile;
-    private static JsonObject jsonObject = new JsonObject();
     public static boolean refreshWhenRespawning = true;
     public static boolean refreshWhenChangingDim = true;
+    private static Path configFile;
+    private static JsonObject jsonObject = new JsonObject();
 
     public static void prepare() {
-        configFile = FabricLoader.getInstance().getConfigDir().resolve("SkinPartsRefresher.json").toFile();
+        configFile = FabricLoader.getInstance().getConfigDir().resolve("SkinPartsRefresher.json");
 
-        if (!configFile.exists()) {
+        if (Files.notExists(configFile)) {
             try {
-                boolean test = configFile.createNewFile();
-                if (!test) throw new IOException("File create failed");
-
+                Files.createFile(configFile);
                 save();
             } catch (IOException e) {
                 SkinPRMain.getLogger().error("Error occurred while creating the config file: ", e);
@@ -33,8 +30,7 @@ public class Config {
         }
 
         try {
-            String jsonStr = new String(Files.readAllBytes(configFile.toPath()));
-
+            String jsonStr = new String(Files.readAllBytes(configFile));
             jsonObject = JsonParser.parseString(jsonStr).getAsJsonObject();
 
             refreshWhenRespawning = jsonObject.getAsJsonPrimitive("refreshWhenRespawning").getAsBoolean();
@@ -45,13 +41,12 @@ public class Config {
     }
 
     public static void save() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
         jsonObject.addProperty("refreshWhenRespawning", refreshWhenRespawning);
         jsonObject.addProperty("refreshWhenChangingDim", refreshWhenChangingDim);
 
         try {
-            Files.writeString(configFile.toPath(), gson.toJson(JsonParser.parseString(jsonObject.toString())));
+            Files.writeString(configFile,
+                    new GsonBuilder().setPrettyPrinting().create().toJson(JsonParser.parseString(jsonObject.toString())));
         } catch (IOException e) {
             SkinPRMain.getLogger().error("Error occurred while saving the config file: ", e);
         }
