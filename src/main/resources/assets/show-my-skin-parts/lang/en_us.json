@@ -1,8 +1,8 @@
 {
     "message.skinpr.manualRefreshed": "Refreshed your skin parts",
-    "category.skinpr.keybindings": "SkinPR Key Bindings",
+    "category.skinpr.keybindings": "ShowMySkinParts Key Bindings",
     "keybinding.skinpr.refreshManually": "Refresh Manually",
-    "config.skinpr.title": "Skin Parts Refresher Config",
+    "config.skinpr.title": "Show My Skin Parts - Config",
     "config.skinpr.category.general": "General Config",
     "config.skinpr.category.general.toggle_respawn": "Refresh skin parts when respawning",
     "config.skinpr.category.general.toggle_dim": "Refresh skin parts when changing dimension"

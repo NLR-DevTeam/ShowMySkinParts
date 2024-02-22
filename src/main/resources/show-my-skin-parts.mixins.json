@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "cn.xiaym.spr.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "DimensionChangeHandler",
+    "RespawnHandler",
+    "KeyBinder",
+    "KeyPressHandler",
+    "PlayerRendererMixin"
+  ]
+}

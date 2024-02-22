@@ -1,0 +1,136 @@
+plugins {
+    id 'fabric-loom'
+    id 'com.replaymod.preprocess'
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.shedaniel.me' }
+    maven { url 'https://maven.terraformersmc.com/releases' }
+
+    mavenLocal()
+    mavenCentral()
+}
+
+int mcVersion = 1
+
+preprocess {
+    mcVersion = vars.get().get('MC')
+    tabIndentation.set(false)
+}
+
+// Module, Property prefix, Resolve condition, Transitive dependencies.
+def apiDependencies = [
+        ['me.shedaniel.cloth:cloth-config-fabric', 'cloth_config', true, true],
+        ['com.terraformersmc:modmenu', 'modmenu', true, true]
+]
+
+// Module, Property prefix, Resolve condition, Transitive dependencies.
+def compileOnlyDependencies = [
+        ['me.shedaniel.cloth:cloth-config-fabric', 'cloth_config', true, true],
+        ['com.terraformersmc:modmenu', 'modmenu', true, true]
+]
+
+dependencies {
+    // Development environment
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+
+    // API
+    apiDependencies.forEach { item ->
+        String dependencyNotation = item[0]
+        String propertyPrefix = item[1]
+        boolean shouldResolve = item[2]
+        boolean shouldTransitive = item[3]
+
+        if (shouldResolve) {
+            modApi("${dependencyNotation}:${project.property("${propertyPrefix}_version")}") {
+                transitive(shouldTransitive)
+            }
+        }
+    }
+
+    // Compile only library.
+    compileOnlyDependencies.forEach { item ->
+        String dependencyNotation = item[0]
+        String propertyPrefix = item[1]
+        boolean shouldResolve = item[2]
+        boolean shouldTransitive = item[3]
+
+        if (shouldResolve) {
+            modCompileOnly("${dependencyNotation}:${project.property("${propertyPrefix}_version")}") {
+                transitive(shouldTransitive)
+            }
+        }
+    }
+
+    // Misc
+    runtimeOnly project(':fabricWrapper')
+}
+
+group(project.mod_maven_group)
+version(project.parent.version)
+
+base {
+    archivesName = "${project.mod_archives_base_name}-${project.mod_version}-${project.minecraft_version}"
+}
+
+loom {
+    interfaceInjection {
+        enableDependencyInterfaceInjection.set(true)
+    }
+}
+
+tasks.findAll {
+    it.name in [
+            'preprocessCode', 'preprocessResources',
+            'preprocessTestCode', 'preprocessTestResources']
+}.forEach {
+    it.group("${project.mod_id}")
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.setEncoding('UTF-8')
+}
+
+remapJar {
+    remapperIsolation.set(false)
+}
+
+processResources {
+    outputs.upToDateWhen { false }
+
+    from("${rootDir}/icon.png") {
+        into("assets/${project.mod_id}")
+    }
+
+    filesMatching('fabric.mod.json') {
+        filter { line ->
+            line.trim().startsWith('//') ? '' : line
+        }
+
+        expand([
+                'minecraft_dependency': project.minecraft_dependency,
+                'minecraft_version_id': project.minecraft_version.replace('.', '_'),
+                'minecraft_version'   : project.minecraft_version,
+                'mod_description'     : project.mod_description,
+                'mod_homepage'        : project.mod_homepage,
+                'mod_id'              : project.mod_id,
+                'mod_license'         : project.mod_license,
+                'mod_name'            : project.mod_name,
+                'mod_sources'         : project.mod_sources,
+                'mod_version'         : project.mod_version
+        ])
+    }
+}
+
+java {
+    sourceCompatibility(JavaVersion.VERSION_17)
+    targetCompatibility(JavaVersion.VERSION_17)
+    withSourcesJar()
+}
+
+jar {
+    from("${rootDir}/LICENSE")
+}

@@ -1,9 +1,40 @@
 pluginManagement {
     repositories {
         maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
+            name 'Fabric'
+            url 'https://maven.fabricmc.net'
         }
+
+        maven {
+            name 'JitPack'
+            url 'https://jitpack.io'
+        }
+
+        mavenLocal()
+        mavenCentral()
         gradlePluginPortal()
     }
+
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'com.replaymod.preprocess') {
+                // Thanks @Hendrix-Shen
+                useModule("com.github.Hendrix-Shen:preprocessor:${requested.version}")
+            }
+        }
+    }
 }
+
+def versions = [
+        '1.19.4',
+        '1.20.4'
+]
+
+for (String version : versions) {
+    include(":$version")
+    def proj = project(":$version")
+    proj.projectDir = file("versions/$version")
+    proj.buildFileName = '../1.20.4/build.gradle'
+}
+
+include(':fabricWrapper')

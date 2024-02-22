@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "${mod_id}-${minecraft_version_id}",
+  "id": "${mod_id}",
   "version": "${mod_version}",
   "icon": "assets/${mod_id}/icon.png",
-  "name": "${mod_name} for ${minecraft_version}",
+  "name": "${mod_name}",
   "description": "${mod_description}",
   "authors": [
     {
@@ -21,21 +21,15 @@
   "license": "${mod_license}",
   "environment": "client",
   "entrypoints": {
-    "client": [
-      "cn.xiaym.spr.SkinPRMain"
+    "modmenu": [
+      "cn.xiaym.spr.compat.modmenu.ModMenuEntry"
     ]
   },
-  "mixins": [
-    "${mod_id}.mixins.json"
-  ],
   "depends": {
-    "minecraft": "${minecraft_dependency}"
+    "minecraft": ${minecraft_dependency}
   },
   "custom": {
-    "modmenu:clientsideOnly": true,
-    "modmenu:parent": "${mod_id}",
-    "modmenu": {
-      "parent": "${mod_id}"
-    }
-  }
+    "modmenu:clientsideOnly": true
+  },
+  "jars": ${sub_jars}
 }

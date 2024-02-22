@@ -1,5 +1,6 @@
-package cn.xiaym.spr;
+package cn.xiaym.spr.compat.modmenu;
 
+import cn.xiaym.spr.Config;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
