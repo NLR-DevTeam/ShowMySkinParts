@@ -2,9 +2,7 @@ package cn.xiaym.spr;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -21,11 +19,7 @@ public class SkinPRMain implements ClientModInitializer {
     private static final Logger logger = LoggerFactory.getLogger("SkinParts");
 
     public static void refreshSkinParts() {
-        // Change 2 times
-        GameOptions options = MC.options;
-        PlayerModelPart part = PlayerModelPart.HAT;
-        options.togglePlayerModelPart(part, !options.isPlayerModelPartEnabled(part));
-        options.togglePlayerModelPart(part, !options.isPlayerModelPartEnabled(part));
+        MC.options.sendClientSettings();
     }
 
     public static Logger getLogger() {

@@ -16,14 +16,14 @@ public class Config {
     private static JsonObject jsonObject = new JsonObject();
 
     public static void prepare() {
-        configFile = FabricLoader.getInstance().getConfigDir().resolve("SkinPartsRefresher.json");
+        configFile = FabricLoader.getInstance().getConfigDir().resolve("ShowMySkinParts.json");
 
         if (Files.notExists(configFile)) {
             try {
                 Files.createFile(configFile);
                 save();
             } catch (IOException e) {
-                SkinPRMain.getLogger().error("Error occurred while creating the config file: ", e);
+                SkinPRMain.getLogger().error("[SkinParts] Error occurred while creating the config file: ", e);
             }
 
             return;
@@ -36,7 +36,7 @@ public class Config {
             refreshWhenRespawning = jsonObject.getAsJsonPrimitive("refreshWhenRespawning").getAsBoolean();
             refreshWhenChangingDim = jsonObject.getAsJsonPrimitive("refreshWhenChangingDim").getAsBoolean();
         } catch (Exception e) {
-            SkinPRMain.getLogger().error("Error occurred while reading the config file: ", e);
+            SkinPRMain.getLogger().error("[SkinParts] Error occurred while reading the config file: ", e);
         }
     }
 
@@ -48,7 +48,7 @@ public class Config {
             Files.writeString(configFile,
                     new GsonBuilder().setPrettyPrinting().create().toJson(JsonParser.parseString(jsonObject.toString())));
         } catch (IOException e) {
-            SkinPRMain.getLogger().error("Error occurred while saving the config file: ", e);
+            SkinPRMain.getLogger().error("[SkinParts] Error occurred while saving the config file: ", e);
         }
     }
 }

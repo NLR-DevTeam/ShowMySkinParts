@@ -1,5 +1,6 @@
 package cn.xiaym.spr.mixin;
 
+import cn.xiaym.spr.Config;
 import cn.xiaym.spr.SkinPRMain;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
@@ -14,7 +15,7 @@ import static cn.xiaym.spr.SkinPRMain.MC;
 public class RespawnHandler {
     @Inject(method = "onPlayerRespawn(Lnet/minecraft/network/packet/s2c/play/PlayerRespawnS2CPacket;)V", at = @At("RETURN"))
     public void onPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info) {
-        if (MC.player == null) {
+        if (!Config.refreshWhenRespawning || MC.player == null) {
             return;
         }
 

@@ -1,5 +1,6 @@
 package cn.xiaym.spr.mixin;
 
+import cn.xiaym.spr.Config;
 import cn.xiaym.spr.SkinPRMain;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
@@ -15,7 +16,7 @@ import static cn.xiaym.spr.SkinPRMain.MC;
 public class DimensionChangeHandler {
     @Inject(method = "setWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("RETURN"))
     private void onWorldChange(ClientWorld clientWorld, CallbackInfo info) {
-        if (clientWorld == null || MC.player == null) {
+        if (clientWorld == null || !Config.refreshWhenChangingDim || MC.player == null) {
             return;
         }
 
