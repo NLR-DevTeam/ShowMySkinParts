@@ -3,7 +3,6 @@ package cn.xiaym.spr;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 public class SkinPRMain implements ClientModInitializer {
     public static final KeyBinding MANUAL_KEY = new KeyBinding(
             "keybinding.skinpr.refreshManually",
-            InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_N,
             "category.skinpr.keybindings"
     );
