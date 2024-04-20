@@ -9,6 +9,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
 
+@SuppressWarnings("unused")
 public class ModMenuEntry implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
@@ -28,18 +29,18 @@ public class ModMenuEntry implements ModMenuApi {
             // Respawn
             general.addEntry(
                     entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_respawn"),
-                                    Config.refreshWhenRespawning)
+                                    Config.refreshAfterRespawn)
                             .setDefaultValue(true)
-                            .setSaveConsumer(b -> Config.refreshWhenRespawning = b)
+                            .setSaveConsumer(b -> Config.refreshAfterRespawn = b)
                             .build()
             );
 
             // Change dim
             general.addEntry(
                     entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_dim"),
-                                    Config.refreshWhenChangingDim)
+                                    Config.refreshWhenChangeDim)
                             .setDefaultValue(true)
-                            .setSaveConsumer(b -> Config.refreshWhenChangingDim = b)
+                            .setSaveConsumer(b -> Config.refreshWhenChangeDim = b)
                             .build()
             );
 

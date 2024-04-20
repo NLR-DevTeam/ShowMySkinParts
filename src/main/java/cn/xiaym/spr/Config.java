@@ -10,12 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Config {
-    public static boolean refreshWhenRespawning = true;
-    public static boolean refreshWhenChangingDim = true;
+    public static boolean refreshAfterRespawn = true;
+    public static boolean refreshWhenChangeDim = true;
     private static Path configFile;
-    private static JsonObject jsonObject = new JsonObject();
+    private static JsonObject confObj = new JsonObject();
 
-    public static void prepare() {
+    public static void initialize() {
         configFile = FabricLoader.getInstance().getConfigDir().resolve("ShowMySkinParts.json");
 
         if (Files.notExists(configFile)) {
@@ -30,23 +30,24 @@ public class Config {
         }
 
         try {
-            String jsonStr = new String(Files.readAllBytes(configFile));
-            jsonObject = JsonParser.parseString(jsonStr).getAsJsonObject();
+            confObj = JsonParser.parseString(
+                    Files.readString(configFile)
+            ).getAsJsonObject();
 
-            refreshWhenRespawning = jsonObject.getAsJsonPrimitive("refreshWhenRespawning").getAsBoolean();
-            refreshWhenChangingDim = jsonObject.getAsJsonPrimitive("refreshWhenChangingDim").getAsBoolean();
+            refreshAfterRespawn = confObj.getAsJsonPrimitive("refreshWhenRespawning").getAsBoolean();
+            refreshWhenChangeDim = confObj.getAsJsonPrimitive("refreshWhenChangingDim").getAsBoolean();
         } catch (Exception e) {
             SkinPRMain.getLogger().error("[SkinParts] Error occurred while reading the config file: ", e);
         }
     }
 
     public static void save() {
-        jsonObject.addProperty("refreshWhenRespawning", refreshWhenRespawning);
-        jsonObject.addProperty("refreshWhenChangingDim", refreshWhenChangingDim);
+        confObj.addProperty("refreshWhenRespawning", refreshAfterRespawn);
+        confObj.addProperty("refreshWhenChangingDim", refreshWhenChangeDim);
 
         try {
             Files.writeString(configFile,
-                    new GsonBuilder().setPrettyPrinting().create().toJson(JsonParser.parseString(jsonObject.toString())));
+                    new GsonBuilder().setPrettyPrinting().create().toJson(JsonParser.parseString(confObj.toString())));
         } catch (IOException e) {
             SkinPRMain.getLogger().error("[SkinParts] Error occurred while saving the config file: ", e);
         }

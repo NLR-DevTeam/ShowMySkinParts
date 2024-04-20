@@ -15,7 +15,7 @@ import static cn.xiaym.spr.SkinPRMain.MC;
 public class RespawnHandler {
     @Inject(method = "onPlayerRespawn(Lnet/minecraft/network/packet/s2c/play/PlayerRespawnS2CPacket;)V", at = @At("RETURN"))
     public void onPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info) {
-        if (!Config.refreshWhenRespawning || MC.player == null) {
+        if (!Config.refreshAfterRespawn || MC.player == null) {
             return;
         }
 

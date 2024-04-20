@@ -1,9 +1,9 @@
 {
-    "message.skinpr.manualRefreshed": "Refreshed your skin parts",
+    "message.skinpr.manualRefreshed": "Your skin layers has been refreshed.",
     "category.skinpr.keybindings": "ShowMySkinParts Key Bindings",
     "keybinding.skinpr.refreshManually": "Refresh Manually",
     "config.skinpr.title": "Show My Skin Parts - Config",
     "config.skinpr.category.general": "General Config",
-    "config.skinpr.category.general.toggle_respawn": "Refresh skin parts when respawning",
-    "config.skinpr.category.general.toggle_dim": "Refresh skin parts when changing dimension"
+    "config.skinpr.category.general.toggle_respawn": "Refresh skin layers after respawning",
+    "config.skinpr.category.general.toggle_dim": "Refresh skin layers when changing dimension"
 }

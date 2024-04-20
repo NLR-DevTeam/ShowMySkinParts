@@ -14,18 +14,18 @@ public class SkinPRMain implements ClientModInitializer {
             "category.skinpr.keybindings"
     );
     public static final MinecraftClient MC = MinecraftClient.getInstance();
-    private static final Logger logger = LoggerFactory.getLogger("SkinParts");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SkinParts");
 
     public static void refreshSkinParts() {
         MC.options.sendClientSettings();
     }
 
     public static Logger getLogger() {
-        return logger;
+        return LOGGER;
     }
 
     @Override
     public void onInitializeClient() {
-        Config.prepare();
+        Config.initialize();
     }
 }
