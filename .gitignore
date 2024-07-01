@@ -26,4 +26,6 @@ bin/
 .project
 
 # fabric
+
 run/
+/versions/**/src/

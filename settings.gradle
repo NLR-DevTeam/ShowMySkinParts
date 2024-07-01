@@ -27,14 +27,15 @@ pluginManagement {
 
 def versions = [
         '1.19.4',
-        '1.20.4'
+        '1.20.4', '1.20.6',
+        '1.21'
 ]
 
 for (String version : versions) {
     include(":$version")
     def proj = project(":$version")
     proj.projectDir = file("versions/$version")
-    proj.buildFileName = '../1.20.4/build.gradle'
+    proj.buildFileName = '../1.21/build.gradle'
 }
 
 include(':fabricWrapper')

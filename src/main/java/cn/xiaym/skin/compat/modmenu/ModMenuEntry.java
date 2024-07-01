@@ -1,6 +1,6 @@
-package cn.xiaym.spr.compat.modmenu;
+package cn.xiaym.skin.compat.modmenu;
 
-import cn.xiaym.spr.Config;
+import cn.xiaym.skin.Config;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -29,18 +29,18 @@ public class ModMenuEntry implements ModMenuApi {
             // Respawn
             general.addEntry(
                     entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_respawn"),
-                                    Config.refreshAfterRespawn)
+                                    Config.refreshWhenRespawning)
                             .setDefaultValue(true)
-                            .setSaveConsumer(b -> Config.refreshAfterRespawn = b)
+                            .setSaveConsumer(b -> Config.refreshWhenRespawning = b)
                             .build()
             );
 
             // Change dim
             general.addEntry(
                     entryBuilder.startBooleanToggle(Text.translatable("config.skinpr.category.general.toggle_dim"),
-                                    Config.refreshWhenChangeDim)
+                                    Config.refreshWhenChangingDim)
                             .setDefaultValue(true)
-                            .setSaveConsumer(b -> Config.refreshWhenChangeDim = b)
+                            .setSaveConsumer(b -> Config.refreshWhenChangingDim = b)
                             .build()
             );
 

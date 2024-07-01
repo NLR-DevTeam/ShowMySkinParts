@@ -1,9 +1,0 @@
-{
-    "message.skinpr.manualRefreshed": "Части скина были перезагружены",
-    "category.skinpr.keybindings": "Клавиши ShowMySkinParts",
-    "keybinding.skinpr.refreshManually": "Ручная перезагрузка",
-    "config.skinpr.title": "Настройки Show My Skin Parts",
-    "config.skinpr.category.general": "Общие настройки",
-    "config.skinpr.category.general.toggle_respawn": "Перезагружать части скина после возрождения",
-    "config.skinpr.category.general.toggle_dim": "Перезагружать части скина после смены миров"
-}

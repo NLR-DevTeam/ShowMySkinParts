@@ -48,7 +48,7 @@ jar {
 processResources {
     // disable cache
     outputs.upToDateWhen { false }
-    ArrayList<?> mc_condition = []
+    HashSet<?> mc_condition = []
     ArrayList<?> jars = []
 
     fabric_subprojects.each({

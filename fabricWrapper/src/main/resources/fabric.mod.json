@@ -22,7 +22,7 @@
   "environment": "client",
   "entrypoints": {
     "modmenu": [
-      "cn.xiaym.spr.compat.modmenu.ModMenuEntry"
+      "cn.xiaym.skin.compat.modmenu.ModMenuEntry"
     ]
   },
   "depends": {

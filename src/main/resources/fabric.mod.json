@@ -22,7 +22,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "cn.xiaym.spr.SkinPRMain"
+      "cn.xiaym.skin.Main"
     ]
   },
   "mixins": [
