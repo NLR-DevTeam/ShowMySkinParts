@@ -29,7 +29,7 @@
     "${mod_id}.mixins.json"
   ],
   "depends": {
-    "minecraft": "${minecraft_dependency}"
+    "minecraft": ${minecraft_dependency}
   },
   "custom": {
     "modmenu:clientsideOnly": true,

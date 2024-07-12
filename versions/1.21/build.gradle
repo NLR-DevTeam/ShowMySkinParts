@@ -1,3 +1,5 @@
+import groovy.json.JsonBuilder
+
 plugins {
     id 'fabric-loom'
     id 'com.replaymod.preprocess'
@@ -106,13 +108,18 @@ processResources {
         into("assets/${project.mod_id}")
     }
 
+    HashSet<?> mc_condition = []
+    Arrays.stream(project.minecraft_dependency.split(','))
+            .map { it.trim() }
+            .forEach { mc_condition.add(it) }
+
     filesMatching('fabric.mod.json') {
         filter { line ->
             line.trim().startsWith('//') ? '' : line
         }
 
         expand([
-                'minecraft_dependency': project.minecraft_dependency,
+                'minecraft_dependency': new JsonBuilder(mc_condition),
                 'minecraft_version_id': project.minecraft_version.replace('.', '_'),
                 'minecraft_version'   : project.minecraft_version,
                 'mod_description'     : project.mod_description,
