@@ -48,11 +48,13 @@ jar {
 processResources {
     // disable cache
     outputs.upToDateWhen { false }
-    HashSet<?> mc_condition = []
+    ArrayList<?> mc_condition = []
     ArrayList<?> jars = []
 
     fabric_subprojects.each({
-        mc_condition.add("${it.minecraft_dependency}")
+        Arrays.stream(it.minecraft_dependency.split(','))
+                .map { it.trim() }
+                .forEach { mc_condition.add(it) }
         jars.add(["file": "META-INF/jars/${project.mod_archives_base_name}-${project.mod_version}-${it.minecraft_version}.jar"])
     })
 

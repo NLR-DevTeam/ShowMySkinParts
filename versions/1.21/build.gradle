@@ -108,10 +108,9 @@ processResources {
         into("assets/${project.mod_id}")
     }
 
-    HashSet<?> mc_condition = []
-    Arrays.stream(project.minecraft_dependency.split(','))
+    List<?> mc_condition = Arrays.stream(project.minecraft_dependency.split(','))
             .map { it.trim() }
-            .forEach { mc_condition.add(it) }
+            .toList()
 
     filesMatching('fabric.mod.json') {
         filter { line ->
