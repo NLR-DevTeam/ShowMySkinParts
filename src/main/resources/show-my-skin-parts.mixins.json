@@ -5,6 +5,7 @@
   "client": [
     "DimensionChangeHandler",
     "KeyBindingHandler$Binder",
+    "KeyBindingHandler$CategoryAccessor",
     "KeyBindingHandler$PressHandler",
     "PlayerRendererMixin",
     "RespawnHandler"
