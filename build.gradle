@@ -4,14 +4,12 @@ plugins {
 }
 
 preprocess {
-    def mc1194 = createNode('1.19.4', 1_19_04, 'mojang')
     def mc1204 = createNode('1.20.4', 1_20_04, 'mojang')
     def mc1206 = createNode('1.20.6', 1_20_06, 'mojang')
-    def mc1210 = createNode('1.21', 1_21_00, 'mojang')
+    def mc1211 = createNode('1.21.1', 1_21_01, 'mojang')
 
-    mc1194.link(mc1204, null)
     mc1204.link(mc1206, null)
-    mc1206.link(mc1210, null)
+    mc1206.link(mc1211, null)
 }
 
 tasks.register('cleanPreprocessSources') {

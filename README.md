@@ -1,6 +1,6 @@
 # Show My Skin Parts
 
-A simple mod for Minecraft 1.19.4, 1.20.4/6 & 1.21 (Other versions are not tested).  
+A simple mod for Minecraft 1.20.4/6 & 1.21.x (Other versions are not tested).  
 The configure screen requires `Cloth Config` and `Mod Menu` to open (or you can edit the configuration file manually).
 
 ### Why use it and What does it do?
