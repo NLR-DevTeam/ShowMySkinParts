@@ -1,0 +1,9 @@
+{
+  "message.skinpr.manualRefreshed": "已刷新您的皮肤二层",
+  "category.skinpr.keybindings": "Show My Skin Parts",
+  "keybinding.skinpr.refreshManually": "手动刷新",
+  "config.skinpr.title": "Show My Skin Parts - 配置页面",
+  "config.skinpr.category.general": "通用配置",
+  "config.skinpr.category.general.toggle_respawn": "在重生时刷新皮肤二层",
+  "config.skinpr.category.general.toggle_dim": "在维度改变时刷新皮肤二层"
+}

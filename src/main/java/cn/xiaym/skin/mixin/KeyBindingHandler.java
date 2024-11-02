@@ -61,7 +61,11 @@ public class KeyBindingHandler {
             }
 
             Main.refreshSkinParts();
-            player.sendMessage(Text.translatable("message.skinpr.manualRefreshed"));
+            player.sendMessage(Text.translatable("message.skinpr.manualRefreshed")
+                    //#if MC >= 12300
+                    , false
+                    //#endif
+            );
         }
     }
 }

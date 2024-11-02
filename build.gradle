@@ -1,15 +1,23 @@
+buildscript {
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.25'
+    }
+}
+
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
-    id 'com.replaymod.preprocess' version '16a0d7b710'
+    id 'fabric-loom' version '1.8-SNAPSHOT' apply false
+    id 'com.replaymod.preprocess'
 }
 
 preprocess {
     def mc1204 = createNode('1.20.4', 1_20_04, 'mojang')
     def mc1206 = createNode('1.20.6', 1_20_06, 'mojang')
     def mc1211 = createNode('1.21.1', 1_21_01, 'mojang')
+    def mc1213 = createNode('1.21.3', 1_21_03, 'mojang')
 
     mc1204.link(mc1206, null)
     mc1206.link(mc1211, null)
+    mc1211.link(mc1213, null)
 }
 
 tasks.register('cleanPreprocessSources') {

@@ -5,6 +5,7 @@ pluginManagement {
             url 'https://maven.fabricmc.net'
         }
 
+        // Required by preprocessor
         maven {
             name 'JitPack'
             url 'https://jitpack.io'
@@ -14,27 +15,20 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == 'com.replaymod.preprocess') {
-                // Thanks @Hendrix-Shen
-                useModule("com.github.Hendrix-Shen:preprocessor:${requested.version}")
-            }
-        }
-    }
 }
+
+includeBuild('preprocessor')
 
 def versions = [
         '1.20.4', '1.20.6',
-        '1.21.1'
+        '1.21.1', '1.21.3'
 ]
 
 for (String version : versions) {
     include(":$version")
     def proj = project(":$version")
     proj.projectDir = file("versions/$version")
-    proj.buildFileName = '../1.21.1/build.gradle'
+    proj.buildFileName = '../' + versions.last + '/build.gradle'
 }
 
 include(':fabricWrapper')

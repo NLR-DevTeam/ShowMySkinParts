@@ -3,6 +3,7 @@ package cn.xiaym.skin;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class Main implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        LOGGER.info(Text.translatable("message.skinpr.manualRefreshed").toString());
         Config.initialize();
     }
 }

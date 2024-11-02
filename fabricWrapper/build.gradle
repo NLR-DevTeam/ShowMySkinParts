@@ -58,10 +58,6 @@ processResources {
         jars.add(["file": "META-INF/jars/${project.mod_archives_base_name}-${project.mod_version}-${it.minecraft_version}.jar"])
     })
 
-    from("${rootDir}/src/main/resources/assets/show-my-skin-parts/icon.png") {
-        into("assets/${project.mod_id}")
-    }
-
     filesMatching("fabric.mod.json") {
         expand([
                 "minecraft_dependency": new JsonBuilder(mc_condition),
