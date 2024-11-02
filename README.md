@@ -20,7 +20,12 @@ it's installed.
 
 ### Compiling
 
-To compile on *nix operating systems, run:
+First, clone this repository using:
+```shell
+git clone https://github.com/NLR-DevTeam/ShowMySkinParts --recursive --depth 1
+```
+
+Then, to compile on *nix operating systems, run:
 
 ```shell
 chmod +x gradlew
