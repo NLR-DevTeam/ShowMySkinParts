@@ -12,7 +12,7 @@ import static cn.xiaym.skin.Main.MC;
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerRendererMixin {
     @Redirect(method =
-            //#if MC >= 12300
+            //#if MC >= 12103
             "updateRenderState(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;F)V",
             //#else
             //$$ "setModelPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)V",

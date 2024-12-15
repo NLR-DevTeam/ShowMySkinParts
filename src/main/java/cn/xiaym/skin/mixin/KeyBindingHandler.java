@@ -62,7 +62,7 @@ public class KeyBindingHandler {
 
             Main.refreshSkinParts();
             player.sendMessage(Text.translatable("message.skinpr.manualRefreshed")
-                    //#if MC >= 12300
+                    //#if MC >= 12103
                     , false
                     //#endif
             );
