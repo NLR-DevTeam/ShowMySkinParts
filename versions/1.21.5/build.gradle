@@ -6,10 +6,10 @@ plugins {
 }
 
 repositories {
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://maven.shedaniel.me' }
-    maven { url 'https://maven.terraformersmc.com' }
-    maven { url 'https://maven.nucleoid.xyz' }
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://maven.shedaniel.me' }
+    maven { url = 'https://maven.terraformersmc.com' }
+    maven { url = 'https://maven.nucleoid.xyz' }
 
     mavenLocal()
     mavenCentral()
@@ -42,7 +42,7 @@ dependencies {
 
         if (shouldResolve) {
             modApi("${dependencyNotation}:${project.property("${propertyPrefix}_version")}") {
-                transitive(shouldTransitive)
+                transitive = shouldTransitive
             }
         }
     }
@@ -56,7 +56,7 @@ dependencies {
 
         if (shouldResolve) {
             modCompileOnly("${dependencyNotation}:${project.property("${propertyPrefix}_version")}") {
-                transitive(shouldTransitive)
+                transitive = shouldTransitive
             }
         }
     }
@@ -65,8 +65,8 @@ dependencies {
     runtimeOnly project(':fabricWrapper')
 }
 
-group(project.mod_maven_group)
-version(project.parent.version)
+group = project.mod_maven_group
+version = project.parent.version
 
 base {
     archivesName = "${project.mod_archives_base_name}-${project.mod_version}-${project.minecraft_version}"
@@ -82,6 +82,25 @@ tasks.withType(JavaCompile).configureEach {
     options.setEncoding('UTF-8')
 }
 
+List<?> mc_condition = Arrays.stream(project.minecraft_dependency.split(','))
+        .map { it.trim() }
+        .toList()
+
+Map<String, ?> properties = [
+        'minecraft_dependency': new JsonBuilder(mc_condition),
+        'minecraft_version_id': project.minecraft_version.replace('.', '_'),
+        'minecraft_version'   : project.minecraft_version,
+        'mod_description'     : project.mod_description,
+        'mod_homepage'        : project.mod_homepage,
+        'mod_id'              : project.mod_id,
+        'mod_license'         : project.mod_license,
+        'mod_name'            : project.mod_name,
+        'mod_sources'         : project.mod_sources,
+        'mod_version'         : project.mod_version
+]
+
+def javaVersionStr = project.java_version
+
 processResources {
     outputs.upToDateWhen { false }
 
@@ -89,33 +108,18 @@ processResources {
         into("assets/${project.mod_id}")
     }
 
-    List<?> mc_condition = Arrays.stream(project.minecraft_dependency.split(','))
-            .map { it.trim() }
-            .toList()
-
     filesMatching('fabric.mod.json') {
         filter { line ->
             line.trim().startsWith('//') ? '' : line
         }
 
-        expand([
-                'minecraft_dependency': new JsonBuilder(mc_condition),
-                'minecraft_version_id': project.minecraft_version.replace('.', '_'),
-                'minecraft_version'   : project.minecraft_version,
-                'mod_description'     : project.mod_description,
-                'mod_homepage'        : project.mod_homepage,
-                'mod_id'              : project.mod_id,
-                'mod_license'         : project.mod_license,
-                'mod_name'            : project.mod_name,
-                'mod_sources'         : project.mod_sources,
-                'mod_version'         : project.mod_version
-        ])
+        expand(properties)
     }
 
     filesMatching('show-my-skin-parts.mixins.json') {
         filter { line ->
             line.trim().startsWith('"compatibilityLevel')
-                    ? '"compatibilityLevel": "JAVA_' + project.java_version + '",'
+                    ? '"compatibilityLevel": "JAVA_' + javaVersionStr + '",'
                     : line
         }
     }
@@ -123,6 +127,6 @@ processResources {
 
 java {
     def javaVersion = JavaVersion.toVersion(project.java_version)
-    sourceCompatibility(javaVersion)
-    targetCompatibility(javaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
 }

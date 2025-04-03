@@ -1,14 +1,14 @@
 pluginManagement {
     repositories {
         maven {
-            name 'Fabric'
-            url 'https://maven.fabricmc.net'
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net'
         }
 
         // Required by preprocessor
         maven {
-            name 'JitPack'
-            url 'https://jitpack.io'
+            name = 'JitPack'
+            url = 'https://jitpack.io'
         }
 
         mavenLocal()
@@ -21,7 +21,7 @@ includeBuild('preprocessor')
 
 def versions = [
         '1.20.4', '1.20.6',
-        '1.21.1', '1.21.3', '1.21.4'
+        '1.21.1', '1.21.3', '1.21.5'
 ]
 
 for (String version : versions) {
