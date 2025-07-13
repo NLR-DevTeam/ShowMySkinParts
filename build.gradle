@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT' apply false
+    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
     id 'com.replaymod.preprocess'
 }
 
@@ -14,12 +14,12 @@ preprocess {
     def mc1206 = createNode('1.20.6', 1_20_06, 'mojang')
     def mc1211 = createNode('1.21.1', 1_21_01, 'mojang')
     def mc1213 = createNode('1.21.3', 1_21_03, 'mojang')
-    def mc1215 = createNode('1.21.5', 1_21_05, 'mojang')
+    def mc1217 = createNode('1.21.7', 1_21_07, 'mojang')
 
     mc1204.link(mc1206, null)
     mc1206.link(mc1211, null)
     mc1211.link(mc1213, null)
-    mc1213.link(mc1215, null)
+    mc1213.link(mc1217, null)
 
     strictExtraMappings.set(false)
 }
