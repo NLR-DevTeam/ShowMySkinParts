@@ -11,20 +11,27 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Map;
+//#if MC <= 12108
+//$$ import org.spongepowered.asm.mixin.gen.Accessor;
+//$$ import java.util.Map;
+//#endif
 
 public class KeyBindingHandler {
     @Mixin(KeyBinding.class)
+    //#if MC >= 12110
+    @SuppressWarnings("unused")
+    //#endif
     public interface CategoryAccessor {
-        @Accessor("CATEGORY_ORDER_MAP")
-        static Map<String, Integer> getCategoryMap() {
-            throw new AssertionError();
-        }
+        //#if MC <= 12108
+        //$$ @Accessor("CATEGORY_ORDER_MAP")
+        //$$ static Map<String, Integer> getCategoryMap() {
+        //$$     throw new AssertionError();
+        //$$ }
+        //#endif
     }
 
     @Mixin(GameOptions.class)
@@ -37,9 +44,11 @@ public class KeyBindingHandler {
         @SuppressWarnings("all")
         @Inject(method = "load()V", at = @At("HEAD"))
         public void registerKey(CallbackInfo info) {
-            Map<String, Integer> categories = CategoryAccessor.getCategoryMap();
-            categories.put(Main.MANUAL_KEY.getCategory(),
-                    categories.values().stream().max(Integer::compareTo).orElse(0) + 1);
+            //#if MC <= 12108
+            //$$ Map<String, Integer> categories = CategoryAccessor.getCategoryMap();
+            //$$ categories.put(Main.MANUAL_KEY.getCategory(),
+            //$$         categories.values().stream().max(Integer::compareTo).orElse(0) + 1);
+            //#endif
 
             KeyBinding[] bindings = new KeyBinding[allKeys.length + 1];
             System.arraycopy(allKeys, 0, bindings, 0, allKeys.length);

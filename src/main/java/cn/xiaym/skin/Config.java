@@ -12,15 +12,15 @@ import java.nio.file.Path;
 public class Config {
     public static boolean refreshWhenRespawning = true;
     public static boolean refreshWhenChangingDim = true;
-    private static Path configFile;
-    private static JsonObject confObj = new JsonObject();
+    private static Path configPath;
+    private static JsonObject data = new JsonObject();
 
     public static void initialize() {
-        configFile = FabricLoader.getInstance().getConfigDir().resolve("ShowMySkinParts.json");
+        configPath = FabricLoader.getInstance().getConfigDir().resolve("ShowMySkinParts.json");
 
-        if (Files.notExists(configFile)) {
+        if (Files.notExists(configPath)) {
             try {
-                Files.createFile(configFile);
+                Files.createFile(configPath);
                 save();
             } catch (IOException e) {
                 Main.LOGGER.error("Error occurred while creating the config file: ", e);
@@ -30,25 +30,23 @@ public class Config {
         }
 
         try {
-            String jsonStr = new String(Files.readAllBytes(configFile));
-            confObj = JsonParser.parseString(jsonStr).getAsJsonObject();
+            String jsonStr = new String(Files.readAllBytes(configPath));
+            data = JsonParser.parseString(jsonStr).getAsJsonObject();
 
-            refreshWhenRespawning = confObj.getAsJsonPrimitive("refreshWhenRespawning").getAsBoolean();
-            refreshWhenChangingDim = confObj.getAsJsonPrimitive("refreshWhenChangingDim").getAsBoolean();
+            refreshWhenRespawning = data.getAsJsonPrimitive("refreshWhenRespawning").getAsBoolean();
+            refreshWhenChangingDim = data.getAsJsonPrimitive("refreshWhenChangingDim").getAsBoolean();
         } catch (Exception e) {
             Main.LOGGER.error("Error occurred while reading the config file: ", e);
         }
     }
 
     public static void save() {
-        confObj.addProperty("refreshWhenRespawning", refreshWhenRespawning);
-        confObj.addProperty("refreshWhenChangingDim", refreshWhenChangingDim);
+        data.addProperty("refreshWhenRespawning", refreshWhenRespawning);
+        data.addProperty("refreshWhenChangingDim", refreshWhenChangingDim);
 
         try {
-            Files.writeString(configFile,
-                    new GsonBuilder().setPrettyPrinting().create().toJson(
-                            JsonParser.parseString(confObj.toString()))
-            );
+            Files.writeString(configPath, new GsonBuilder().setPrettyPrinting().create()
+                    .toJson(JsonParser.parseString(data.toString())));
         } catch (IOException e) {
             Main.LOGGER.error("Error occurred while saving the config file: ", e);
         }
